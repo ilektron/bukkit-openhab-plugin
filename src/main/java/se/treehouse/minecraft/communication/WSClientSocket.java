@@ -2,12 +2,15 @@ package se.treehouse.minecraft.communication;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Powerable;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Lever;
+import org.bukkit.Material;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -188,14 +191,22 @@ public class WSClientSocket {
 
         OHSign sign = WSMinecraft.instance().getSign(signName);
         if(sign != null) {
-            WSMinecraft.instance().getLogger().info(String.format("Setting %s sign state: %s", signName, active));
 
             Block block = sign.getBlock();
-
-            if (block.getType() == Material.LEVER) {
-                Lever lever = (Lever) block.getState().getData();
-                lever.setPowered(active);
-                block.setData(lever.getData(), true);
+            BlockState state = block.getState();
+            
+            if ( state.getType() == Material.LEVER || state.getType() == Material.STONE_BUTTON )
+            {
+                WSMinecraft.instance().getLogger().info(String.format("Setting lever powered to %s, Lever data is: %s", active, block.getBlockData().getAsString()));
+                
+                Bukkit.getScheduler().runTask(WSMinecraft.instance(), () -> {
+                	//BlockState state = block.getState();
+                	Powerable lever = (Powerable)block.getBlockData();
+                    lever.setPowered(active);
+                    block.setBlockData(lever);
+                    WSMinecraft.instance().getLogger().info(String.format("After, Lever data is %s", block.getBlockData().getAsString()));
+                    state.update(true);
+                });
             }
         }
     }

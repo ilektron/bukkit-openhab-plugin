@@ -40,7 +40,7 @@ public final class BukkitServerListener implements Listener {
 
     /**
      * Listen for block breaking.
-     * Updates clients if redsone or or signs break.
+     * Updates clients if redstone or or signs break.
      *
      * @param event block destroy events
      */
@@ -73,9 +73,9 @@ public final class BukkitServerListener implements Listener {
             BlockState topBlock = topPosition.getBlock().getState();
             if(topBlock instanceof Sign){
                 Sign signBlock = (Sign) topBlock;
-                String singText = signBlock.getLines()[0];
+                String signText = signBlock.getLines()[0];
 
-                sign = new OHSign(singText, false, topPositionData, event.getBlock());
+                sign = new OHSign(signText, false, topPositionData, event.getBlock());
                 ohSigns.put(topPositionData, sign);
                 WSMinecraft.plugin.getLogger().info("Found new sign " + sign.getName());
             }
