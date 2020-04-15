@@ -1,7 +1,7 @@
 # bukkit-openhab-plugin
 
 Plugin spigot integrating minecraft with openhab
-https://github.com/ibaton/Openhab-Minecraft-Binding
+https://github.com/openhab/openhab-addons/tree/2.5.x/bundles/org.openhab.binding.minecraft
 
 ## Youtube Video
 [![Minecraft Binding 1](http://img.youtube.com/vi/TdvkTorzkXU/0.jpg)](https://youtu.be/TdvkTorzkXU)
